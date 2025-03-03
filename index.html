@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SustainTrack - Product Carbon Footprint Analyzer</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">SustainTrack</div>
+            <ul>
+                <li><a href="#calculator">Calculator</a></li>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#recommendations">Recommendations</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Track, Analyze, and Reduce Your Product's Carbon Footprint</h1>
+                <p>Make sustainable decisions throughout your supply chain</p>
+                <a href="#calculator" class="btn primary">Get Started</a>
+            </div>
+        </section>
+
+        <section id="calculator" class="section">
+            <div class="container">
+                <h2>Carbon Footprint Calculator</h2>
+                <div class="card">
+                    <form id="product-form">
+                        <div class="form-group">
+                            <label for="product-name">Product Name</label>
+                            <input type="text" id="product-name" required>
+                        </div>
+                        
+                        <h3>Materials</h3>
+                        <div id="materials-container">
+                            <div class="material-row">
+                                <div class="form-group">
+                                    <label for="material-type-1">Material Type</label>
+                                    <select id="material-type-1" class="material-type">
+                                        <option value="aluminum">Aluminum</option>
+                                        <option value="steel">Steel</option>
+                                        <option value="plastic">Plastic</option>
+                                        <option value="paper">Paper/Cardboard</option>
+                                        <option value="glass">Glass</option>
+                                        <option value="wood">Wood</option>
+                                        <option value="cotton">Cotton</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="material-weight-1">Weight (kg)</label>
+                                    <input type="number" id="material-weight-1" class="material-weight" min="0" step="0.01" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="material-source-1">Sourcing Distance (km)</label>
+                                    <input type="number" id="material-source-1" class="material-source" min="0" required>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="add-material" class="btn secondary">Add Material</button>
+                        
+                        <h3>Manufacturing</h3>
+                        <div class="form-group">
+                            <label for="energy-consumption">Energy Consumption (kWh)</label>
+                            <input type="number" id="energy-consumption" min="0" step="0.1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="energy-source">Energy Source</label>
+                            <select id="energy-source">
+                                <option value="grid">Grid Electricity</option>
+                                <option value="renewable">100% Renewable</option>
+                                <option value="mixed">Mixed Sources</option>
+                            </select>
+                        </div>
+                        
+                        <h3>Transportation</h3>
+                        <div class="form-group">
+                            <label for="transport-method">Primary Transport Method</label>
+                            <select id="transport-method">
+                                <option value="truck">Truck</option>
+                                <option value="rail">Rail</option>
+                                <option value="ship">Ship</option>
+                                <option value="air">Air Freight</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="transport-distance">Average Distribution Distance (km)</label>
+                            <input type="number" id="transport-distance" min="0" required>
+                        </div>
+                        
+                        <h3>Use & End of Life</h3>
+                        <div class="form-group">
+                            <label for="product-lifespan">Expected Product Lifespan (years)</label>
+                            <input type="number" id="product-lifespan" min="0.1" step="0.1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="recyclability">Recyclability Percentage</label>
+                            <input type="number" id="recyclability" min="0" max="100" required>
+                        </div>
+                        
+                        <button type="submit" class="btn primary">Calculate Footprint</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section id="results" class="section hidden">
+            <div class="container">
+                <h2>Carbon Footprint Results</h2>
+                <div class="results-container">
+                    <div class="card result-summary">
+                        <h3>Summary for <span id="result-product-name"></span></h3>
+                        <div class="total-carbon">
+                            <span id="total-carbon-value">0</span>
+                            <span class="unit">kg CO₂e</span>
+                        </div>
+                        <div class="carbon-rating">
+                            <h4>Carbon Rating</h4>
+                            <div id="carbon-rating" class="rating"></div>
+                        </div>
+                        <button id="save-result" class="btn primary">Save Result</button>
+                        <button id="export-pdf" class="btn secondary">Export Report</button>
+                    </div>
+                    <div class="card result-breakdown">
+                        <h3>Carbon Footprint Breakdown</h3>
+                        <canvas id="breakdown-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="dashboard" class="section">
+            <div class="container">
+                <h2>Sustainability Dashboard</h2>
+                <div class="dashboard-filters">
+                    <div class="form-group">
+                        <label for="dashboard-filter">View</label>
+                        <select id="dashboard-filter">
+                            <option value="all">All Products</option>
+                            <option value="recent">Recently Added</option>
+                            <option value="highest">Highest Impact</option>
+                            <option value="lowest">Lowest Impact</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <h3>Product Comparison</h3>
+                        <canvas id="comparison-chart"></canvas>
+                    </div>
+                    <div class="card">
+                        <h3>Impact by Category</h3>
+                        <canvas id="category-chart"></canvas>
+                    </div>
+                    <div class="card">
+                        <h3>Progress Over Time</h3>
+                        <canvas id="trend-chart"></canvas>
+                    </div>
+                    <div class="card">
+                        <h3>Saved Products</h3>
+                        <div id="saved-products-list" class="products-list">
+                            <p id="no-products-message">No products saved yet. Use the calculator to add products.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="recommendations" class="section">
+            <div class="container">
+                <h2>Reduction Recommendations</h2>
+                <div class="recommendations-container">
+                    <div class="card">
+                        <h3>Material Optimization</h3>
+                        <ul id="material-recommendations" class="recommendations-list"></ul>
+                    </div>
+                    <div class="card">
+                        <h3>Energy Improvements</h3>
+                        <ul id="energy-recommendations" class="recommendations-list"></ul>
+                    </div>
+                    <div class="card">
+                        <h3>Transportation Solutions</h3>
+                        <ul id="transport-recommendations" class="recommendations-list"></ul>
+                    </div>
+                    <div class="card">
+                        <h3>Lifecycle Enhancements</h3>
+                        <ul id="lifecycle-recommendations" class="recommendations-list"></ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">SustainTrack</div>
+                <p>©2025 SustainTrack - Product Carbon Footprint Analyzer</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
