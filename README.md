@@ -43,6 +43,16 @@ That's it! The application is ready to use.
 
 All product data is stored in your browser's local storage. No data is sent to any server.
 
+## Verification
+
+Run the local storage smoke test after changing dashboard persistence logic:
+
+```
+node tests/saved-products-storage.test.js
+```
+
+The test boots the browser script in a small Node VM harness and verifies that corrupt or non-array `sustainTrack_products` values do not prevent the app from rendering.
+
 ## License
 
 This project is open source and available under the MIT License.
