@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern SustainTrack</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.js"></script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="brand-nav">
+            <a href="#" class="brand">Modern SustainTrack</a>
+            <ul>
+                <li><a href="#calculator">Calculator</a></li>
+                <li><a href="#insights">Dashboard</a></li>
+                <li><a href="#planner">Reduction Planner</a></li>
+                <li><a href="#library">Report Library</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <p class="eyebrow">Product Carbon Footprint Analyzer</p>
+            <h1>Modernized sustainability planning for product teams</h1>
+            <p>Track lifecycle emissions, compare saved products, and map practical reduction actions with a stronger, accessible workflow.</p>
+            <div class="kpi-row" id="quick-kpis"></div>
+        </section>
+
+        <section id="calculator" class="panel">
+            <h2>Carbon Footprint Calculator</h2>
+            <form id="product-form" class="grid-form" novalidate>
+                <label>
+                    <span>Product Name</span>
+                    <input id="product-name" required type="text" autocomplete="off">
+                </label>
+
+                <fieldset>
+                    <legend>Materials</legend>
+                    <div id="materials-container" class="stack"></div>
+                    <button type="button" id="add-material" class="button secondary" aria-label="Add another material row">+ Add Material</button>
+                </fieldset>
+
+                <label>
+                    <span>Energy Consumption (kWh)</span>
+                    <input id="energy-consumption" type="number" min="0" step="0.1" required>
+                </label>
+                <label>
+                    <span>Energy Source</span>
+                    <select id="energy-source">
+                        <option value="grid">Grid Electricity</option>
+                        <option value="renewable">100% Renewable</option>
+                        <option value="mixed">Mixed Sources</option>
+                    </select>
+                </label>
+                <label>
+                    <span>Transport Method</span>
+                    <select id="transport-method">
+                        <option value="truck">Truck</option>
+                        <option value="rail">Rail</option>
+                        <option value="ship">Ship</option>
+                        <option value="air">Air Freight</option>
+                    </select>
+                </label>
+                <label>
+                    <span>Distribution Distance (km)</span>
+                    <input id="transport-distance" type="number" min="0" required>
+                </label>
+                <label>
+                    <span>Product Lifespan (years)</span>
+                    <input id="product-lifespan" type="number" min="0.1" step="0.1" required>
+                </label>
+                <label>
+                    <span>Recyclability (%)</span>
+                    <input id="recyclability" type="number" min="0" max="100" required>
+                </label>
+
+                <button id="calculate" class="button primary" type="submit">Calculate Footprint</button>
+            </form>
+        </section>
+
+        <section id="result-panel" class="panel hidden" aria-live="polite">
+            <h2>Analysis Result</h2>
+            <div class="result-grid">
+                <article>
+                    <h3>Product</h3>
+                    <p id="result-product-name" class="highlight-value"></p>
+                    <p>Score <strong id="impact-score">—</strong></p>
+                    <p>Total Footprint</p>
+                    <p id="total-carbon-value" class="impact-value">0 kg CO2e</p>
+                    <p id="carbon-rating"></p>
+                    <div class="result-actions">
+                        <button id="save-result" class="button secondary">Save Product</button>
+                        <button id="export-json" class="button secondary">Export JSON</button>
+                        <button id="export-csv" class="button secondary" type="button">Export CSV</button>
+                        <label for="import-file" class="button">Import File</label>
+                        <input id="import-file" type="file" accept="application/json,.json,.csv" class="sr-only">
+                    </div>
+                </article>
+                <article>
+                    <h3>Category Breakdown</h3>
+                    <canvas id="breakdown-chart" aria-label="Breakdown chart"></canvas>
+                </article>
+                <article>
+                    <h3>Savings vs Current</h3>
+                    <div id="reduction-summary" class="muted-box"></div>
+                    <label>
+                        <span>Reduction target</span>
+                        <div class="slider-wrap">
+                            <input id="target-reduction" type="range" min="5" max="75" value="20">
+                            <output id="target-output">20%</output>
+                        </div>
+                    </label>
+                    <ol id="reduction-steps"></ol>
+                </article>
+            </div>
+        </section>
+
+        <section id="insights" class="panel">
+            <div class="section-head">
+                <h2>Dashboard</h2>
+                <div class="control-row">
+                    <label for="dashboard-filter">Sort and filter</label>
+                    <select id="dashboard-filter">
+                        <option value="all">All products</option>
+                        <option value="recent">Most recent</option>
+                        <option value="highest">Highest impact</option>
+                        <option value="lowest">Lowest impact</option>
+                    </select>
+                </div>
+            </div>
+            <div class="dashboard-grid">
+                <article>
+                    <h3>Saved Products</h3>
+                    <div id="saved-products-list" class="saved-list" role="list"></div>
+                    <p id="no-products-message">No products saved yet. Use Calculate then Save.</p>
+                </article>
+                <article>
+                    <h3>Comparison</h3>
+                    <canvas id="comparison-chart" aria-label="Comparison chart"></canvas>
+                </article>
+                <article>
+                    <h3>Category Totals</h3>
+                    <canvas id="category-chart" aria-label="Category totals"></canvas>
+                </article>
+                <article>
+                    <h3>Trend Over Time</h3>
+                    <canvas id="trend-chart" aria-label="Trend chart"></canvas>
+                </article>
+            </div>
+        </section>
+
+        <section id="library" class="panel">
+            <h2>Recommendations</h2>
+            <div class="recommendation-grid">
+                <article>
+                    <h3>Material Optimization</h3>
+                    <ul id="material-recommendations"></ul>
+                </article>
+                <article>
+                    <h3>Energy Improvements</h3>
+                    <ul id="energy-recommendations"></ul>
+                </article>
+                <article>
+                    <h3>Transport Improvements</h3>
+                    <ul id="transport-recommendations"></ul>
+                </article>
+                <article>
+                    <h3>Lifecycle Improvements</h3>
+                    <ul id="lifecycle-recommendations"></ul>
+                </article>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
