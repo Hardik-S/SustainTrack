@@ -43,6 +43,10 @@
   - clearer labels and sections
   - visible sections with semantic structure
   - larger click targets and readable contrast surface
+- Added an Action Trail panel:
+  - tracks calculation, save, import/export, filter, and reduction-target interactions
+  - persists up to 40 action events in `localStorage` (`sustainTrack_action_trail_v1`)
+  - added clear and copy controls for lightweight audit trails
 
 ## Rejected approaches
 
@@ -52,6 +56,7 @@
 ## Run / verify locally
 
 - `node --check modern/app.js`
+- `node --check modern/activity-log.js`
 - Open `modern/index.html` via local static server and verify:
   - calculator creates a result
   - result card updates rating and score

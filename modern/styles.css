@@ -298,6 +298,29 @@ button:hover {
     margin-top: .45rem;
 }
 
+.activity-log {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+}
+
+.activity-item {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 0.65rem 0.75rem;
+}
+
+.activity-item time {
+    color: var(--text-soft);
+    font-size: 0.85rem;
+}
+
+.activity-summary {
+    margin-top: 0.2rem;
+}
+
 .hidden-input {
     display: none;
 }

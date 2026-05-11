@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles.css">
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.js"></script>
     <script defer src="app.js"></script>
+    <script defer src="activity-log.js"></script>
 </head>
 <body>
     <header class="site-header">
@@ -172,6 +173,20 @@
                     <ul id="lifecycle-recommendations"></ul>
                 </article>
             </div>
+        </section>
+
+        <section id="activity" class="panel">
+            <div class="section-head">
+                <h2>Action Trail</h2>
+                <div class="control-row">
+                    <button id="copy-activity-log" type="button" class="button secondary">Copy Trail</button>
+                    <button id="clear-activity-log" type="button" class="button secondary">Clear Trail</button>
+                </div>
+            </div>
+            <p id="no-activity-message" class="muted-box">
+                No actions yet. Use the calculator and dashboard controls to build a reusable action trail.
+            </p>
+            <ul id="activity-log" class="activity-log" role="list"></ul>
         </section>
     </main>
 </body>
